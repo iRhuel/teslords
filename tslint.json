@@ -1,0 +1,35 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-standard",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "member-access": false,
+    "variable-name": [true, "allow-snake-case", "allow-pascal-case"],
+    "no-console": false,
+    "no-empty": false,
+    "await-promise": [true, "Bluebird", "Request"],
+    "only-arrow-functions": false,
+    "max-classes-per-file": false,
+    "triple-equals": true,
+    "interface-name": false,
+    "no-empty-interface": false,
+    "no-namespace": false,
+    "semicolon": true,
+    "trailing-comma": [true, { "multiline": "always" }]
+  },
+  "jsRules": {
+    "no-console": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "member-access": false,
+    "triple-equals": true,
+    "semicolon": true
+  }
+}

@@ -1,9 +1,15 @@
 // importing the dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
+require('dotenv').config();
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import Tesla from './utils/Tesla';
+
+const TeslaAPI = new Tesla();
+
+console.log(process.env.TESLA_API_URL || 'noUrl');
 
 // consts
 const PORT = 3000;
@@ -26,9 +32,36 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
-// defining an endpoint to return all ads
-app.get('/', (req: any, res: any) => {
-  res.send(resp);
+app.post('/auth', async (req, res) => {
+  const email = req?.body?.email;
+  const password = req?.body?.password;
+
+  if (!email || !password) {
+    res.send('no email or password!');
+  }
+
+  try {
+    const { data } = await TeslaAPI.oauth.password(email, password);
+
+    res.send(data);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+app.get('/vehicles', async (req, res) => {
+  const token = req?.headers.authorization;
+
+  if (!token) {
+    res.send('no token!');
+  }
+
+  try {
+    const { data } = await TeslaAPI.vehicles(token!);
+    res.send(data);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 // starting the server
