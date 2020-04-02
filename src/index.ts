@@ -1,70 +1,38 @@
-// importing the dependencies
 require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import Tesla from './utils/Tesla';
+import passport from 'passport';
+import session from 'express-session';
+import boom from 'express-boom';
 
-const TeslaAPI = new Tesla();
+import { startDB } from './db';
+import routes from './routes';
+import { usePassport } from './utils';
 
-console.log(process.env.TESLA_API_URL || 'noUrl');
+const { APP_PORT, APP_SECRET } = process.env;
 
-// consts
-const PORT = 3000;
-
-// defining the Express app
 const app = express();
 
-// defining an array to work as the database (temporary solution)
-const resp = 'hello world';
-
-// adding Helmet to enhance your API's security
 app.use(helmet());
-
-// using bodyParser to parse JSON bodies into JS objects
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-// enabling CORS for all requests
 app.use(cors());
-
-// adding morgan to log HTTP requests
 app.use(morgan('combined'));
+app.use(boom());
+app.use(
+  session({ secret: APP_SECRET || 'secret', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.post('/auth', async (req, res) => {
-  const email = req?.body?.email;
-  const password = req?.body?.password;
+startDB();
+usePassport();
 
-  if (!email || !password) {
-    res.send('no email or password!');
-  }
+app.use('/', routes);
 
-  try {
-    const { data } = await TeslaAPI.oauth.password(email, password);
-
-    res.send(data);
-  } catch (err) {
-    res.send(err);
-  }
-});
-
-app.get('/vehicles', async (req, res) => {
-  const token = req?.headers.authorization;
-
-  if (!token) {
-    res.send('no token!');
-  }
-
-  try {
-    const { data } = await TeslaAPI.vehicles(token!);
-    res.send(data);
-  } catch (err) {
-    res.send(err);
-  }
-});
-
-// starting the server
-app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
+app.listen(APP_PORT, () => {
+  console.log(`listening on port ${APP_PORT}`);
 });
