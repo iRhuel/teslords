@@ -11,8 +11,8 @@ const authRoutes = Router();
  * POST create new user
  */
 authRoutes.post('/', async (req, res) => {
-  const email = req?.body?.email;
-  const password = req?.body?.password;
+  const email = req.body?.email;
+  const password = req.body?.password;
 
   if (!email || !password) {
     return res.status(422).send(`${email ? 'password' : 'email'} is required`);
@@ -28,13 +28,13 @@ authRoutes.post('/', async (req, res) => {
  * POST login user
  */
 authRoutes.post('/login', useLocalAuth, (req, res) => {
-  return res.json(req.user?.toAuthJSON());
+  return res.json(req.currentUser.toAuthJSON());
 });
 
 // tesla auth
 authRoutes.post('/', useJWTAuth, async (req, res) => {
-  const email = req?.body?.email;
-  const password = req?.body?.password;
+  const email = req.body?.email;
+  const password = req.body?.password;
 
   try {
     const { data } = await Tesla.auth(email, password);

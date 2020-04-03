@@ -16,7 +16,7 @@ exports.useLocalAuth = (req, res, next) => {
             return res.status(422).send(`${email ? 'password' : 'email'} is required`);
         }
         if (user) {
-            req.user = user;
+            req.currentUser = user;
             return next();
         }
         return res.status(401);
@@ -28,7 +28,7 @@ exports.useJWTAuth = (req, res, next) => {
             return next(err);
         }
         if (user) {
-            req.user = user;
+            req.currentUser = user;
             return next();
         }
         return res.status(401);

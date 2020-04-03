@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-import { BaseAttributes } from '.';
+import { BaseAttributes, User } from '.';
 import { TeslaVehicle } from '../../utils/Tesla';
 
 export default interface Vehicle extends BaseAttributes, TeslaVehicle {
@@ -87,5 +87,10 @@ export default class Vehicle extends Model {
         updatedAt: 'updated_at',
       },
     );
+  }
+
+  static associate() {
+    Vehicle.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade' });
+    User.hasMany(Vehicle, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
 }

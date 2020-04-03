@@ -15,7 +15,7 @@ export const useLocalAuth: RequestHandler = (req, res, next) => {
     }
 
     if (user) {
-      req.user = user;
+      req.currentUser = user;
       return next();
     }
 
@@ -30,7 +30,7 @@ export const useJWTAuth: RequestHandler = (req, res, next) => {
     }
 
     if (user) {
-      req.user = user;
+      req.currentUser = user;
       return next();
     }
 

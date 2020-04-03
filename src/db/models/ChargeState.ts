@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-import { BaseAttributes } from '.';
+import { BaseAttributes, Charge } from '.';
 import { TeslaChargeState } from '../../utils/Tesla';
 
 export default interface ChargeState extends BaseAttributes, TeslaChargeState {
@@ -209,5 +209,10 @@ export default class ChargeState extends Model {
         updatedAt: 'updated_at',
       },
     );
+  }
+
+  static associate() {
+    ChargeState.belongsTo(Charge, { onUpdate: 'cascade', onDelete: 'cascade' });
+    Charge.hasMany(ChargeState, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
 }

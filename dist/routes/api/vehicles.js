@@ -11,15 +11,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const utils_1 = require("../../utils");
+const models_1 = require("../../db/models");
 const vehicleRoutes = express_1.Router();
 vehicleRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    try {
-        const { data } = yield utils_1.Tesla.getVehicles({ token: (_a = req.headers.authorization) !== null && _a !== void 0 ? _a : '' });
-        res.send(data);
+    const token = req.currentUser.token;
+    if (!token) {
+        return res.boom.unauthorized('no access_token');
     }
-    catch (err) {
-        res.send(err);
+    else {
+        try {
+            const { data } = yield utils_1.Tesla.getVehicles({ token: token.getAuthHeader() });
+            const vehicles = yield req.currentUser.getVehicles();
+            const intIds = vehicles.map(vehicle => vehicle.id);
+            const createPromises = [];
+            for (const extVehicle of data.response) {
+                if (!intIds.includes(extVehicle.id)) {
+                    createPromises.push(models_1.Vehicle.create(extVehicle));
+                }
+            }
+            const newVehicles = yield Promise.all(createPromises);
+            return res.json(vehicles.concat(newVehicles));
+        }
+        catch (err) {
+            return res.send(err);
+        }
     }
 }));
 exports.default = vehicleRoutes;

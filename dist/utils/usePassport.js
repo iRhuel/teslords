@@ -33,7 +33,7 @@ exports.default = () => {
         passwordField: 'password',
     }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield models_1.User.findOne({ where: { email } });
+            const user = yield models_1.User.findOne({ where: { email }, include: [models_1.User.associations.token] });
             if (!user || !user.validatePassword(password)) {
                 return done({ 'email or password': 'is invalid' });
             }
@@ -50,7 +50,7 @@ exports.default = () => {
         secretOrKey: APP_SECRET || 'secret',
     }, (jwt, done) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield models_1.User.findByPk(jwt.id);
+            const user = yield models_1.User.findOne({ where: { id: jwt.id }, include: [models_1.User.associations.token] });
             if (!user) {
                 done({ user: 'Not found' });
             }

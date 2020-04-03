@@ -1,11 +1,13 @@
 import Sequelize, { Model } from 'sequelize';
 import { BaseAttributes } from '.';
+import User from './User';
 
 export default interface Token extends BaseAttributes {
   user_id: number;
   access_token: string;
   token_type: string;
   refresh_token: string;
+  expires_in: number;
 }
 
 export default class Token extends Model {
@@ -49,11 +51,19 @@ export default class Token extends Model {
         sequelize: sequelize,
         tableName: 'tokens',
         timestamps: true,
-        paranoid: true,
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
       },
     );
+  }
+
+  static associate() {
+    Token.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade' });
+    User.hasOne(Token, { onUpdate: 'cascade', onDelete: 'cascade' });
+  }
+
+  getAuthHeader() {
+    return `Bearer ${this.access_token}`;
   }
 }

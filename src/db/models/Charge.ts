@@ -1,5 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
-import { BaseAttributes } from '.';
+import Sequelize, { Model, Association, HasManyGetAssociationsMixin } from 'sequelize';
+import { BaseAttributes, ChargeState, User } from '.';
 
 export default interface Charge extends BaseAttributes {
   vehicle_id: number;
@@ -37,4 +37,17 @@ export default class Charge extends Model {
       },
     );
   }
+
+  static associations: {
+    charge_states: Association<Charge, ChargeState>;
+  };
+
+  static associate() {
+    Charge.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade' });
+    User.hasMany(Charge, { onUpdate: 'cascade', onDelete: 'cascade' });
+  }
+
+  getChargeStates!: HasManyGetAssociationsMixin<ChargeState>;
+
+  charge_states?: ChargeState[];
 }

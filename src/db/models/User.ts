@@ -1,8 +1,8 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model, HasOneGetAssociationMixin, Association, HasManyGetAssociationsMixin } from 'sequelize';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
-import { BaseAttributes } from '.';
+import { BaseAttributes, Token, Vehicle, Charge } from '.';
 
 const { APP_SECRET } = process.env;
 
@@ -46,6 +46,22 @@ export default class User extends Model {
       },
     );
   }
+
+  static associations: {
+    vehicles: Association<User, Vehicle>;
+    token: Association<User, Token>;
+    charges: Association<User, Charge>;
+  };
+
+  static associate(sequelize: Sequelize.Sequelize) {}
+
+  getVehicles!: HasManyGetAssociationsMixin<Vehicle>;
+  getToken!: HasOneGetAssociationMixin<Token>;
+  getCharges!: HasManyGetAssociationsMixin<Charge>;
+
+  vehicles?: Vehicle[];
+  token?: Token;
+  charges?: Charge[];
 
   async setPassword(password: string) {
     if (!this.salt) {

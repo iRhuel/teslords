@@ -35,6 +35,12 @@ const initialize = (model: any) => {
 // import and initialize models here
 import User from './User';
 initialize(User);
+import Vehicle from './Vehicle';
+initialize(Vehicle);
+import Token from './Token';
+initialize(Token);
+import Charge from './Charge';
+initialize(Charge);
 import ChargeState from './ChargeState';
 initialize(ChargeState);
 
@@ -48,4 +54,4 @@ for (const model of Object.values(models)) {
 }
 
 // add imported models here
-export { User };
+export { User, Vehicle, Token, Charge, ChargeState };

@@ -30,7 +30,7 @@ export default () => {
       },
       async (email, password, done) => {
         try {
-          const user = await User.findOne({ where: { email } });
+          const user = await User.findOne({ where: { email }, include: [User.associations.token] });
           if (!user || !user.validatePassword(password)) {
             return done({ 'email or password': 'is invalid' });
           } else {
@@ -51,7 +51,7 @@ export default () => {
       },
       async (jwt, done) => {
         try {
-          const user = await User.findByPk(jwt.id);
+          const user = await User.findOne({ where: { id: jwt.id }, include: [User.associations.token] });
           if (!user) {
             done({ user: 'Not found' });
           } else {

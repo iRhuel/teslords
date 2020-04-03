@@ -8,6 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
+const _1 = require(".");
 class Vehicle extends sequelize_1.Model {
     static initialize(sequelize) {
         return Vehicle.init({
@@ -85,6 +86,10 @@ class Vehicle extends sequelize_1.Model {
             createdAt: 'created_at',
             updatedAt: 'updated_at',
         });
+    }
+    static associate() {
+        Vehicle.belongsTo(_1.User, { onUpdate: 'cascade', onDelete: 'cascade' });
+        _1.User.hasMany(Vehicle, { onUpdate: 'cascade', onDelete: 'cascade' });
     }
 }
 exports.default = Vehicle;

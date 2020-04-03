@@ -23,8 +23,8 @@ const authRoutes = express_1.Router();
  */
 authRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const email = (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.email;
-    const password = (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.password;
+    const email = (_a = req.body) === null || _a === void 0 ? void 0 : _a.email;
+    const password = (_b = req.body) === null || _b === void 0 ? void 0 : _b.password;
     if (!email || !password) {
         return res.status(422).send(`${email ? 'password' : 'email'} is required`);
     }
@@ -36,14 +36,13 @@ authRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* (
  * POST login user
  */
 authRoutes.post('/login', middleware_1.useLocalAuth, (req, res) => {
-    var _a;
-    return res.json((_a = req.user) === null || _a === void 0 ? void 0 : _a.toAuthJSON());
+    return res.json(req.currentUser.toAuthJSON());
 });
 // tesla auth
 authRoutes.post('/', middleware_1.useJWTAuth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c, _d;
-    const email = (_c = req === null || req === void 0 ? void 0 : req.body) === null || _c === void 0 ? void 0 : _c.email;
-    const password = (_d = req === null || req === void 0 ? void 0 : req.body) === null || _d === void 0 ? void 0 : _d.password;
+    const email = (_c = req.body) === null || _c === void 0 ? void 0 : _c.email;
+    const password = (_d = req.body) === null || _d === void 0 ? void 0 : _d.password;
     try {
         const { data } = yield Tesla_1.default.auth(email, password);
         res.send(data);

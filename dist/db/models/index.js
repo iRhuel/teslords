@@ -18,7 +18,17 @@ const initialize = (model) => {
 const User_1 = __importDefault(require("./User"));
 exports.User = User_1.default;
 initialize(User_1.default);
+const Vehicle_1 = __importDefault(require("./Vehicle"));
+exports.Vehicle = Vehicle_1.default;
+initialize(Vehicle_1.default);
+const Token_1 = __importDefault(require("./Token"));
+exports.Token = Token_1.default;
+initialize(Token_1.default);
+const Charge_1 = __importDefault(require("./Charge"));
+exports.Charge = Charge_1.default;
+initialize(Charge_1.default);
 const ChargeState_1 = __importDefault(require("./ChargeState"));
+exports.ChargeState = ChargeState_1.default;
 initialize(ChargeState_1.default);
 for (const model of Object.values(models)) {
     if (model.associate) {

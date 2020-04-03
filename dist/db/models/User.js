@@ -54,6 +54,7 @@ class User extends sequelize_1.Model {
             updatedAt: 'updated_at',
         });
     }
+    static associate(sequelize) { }
     setPassword(password) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.salt) {

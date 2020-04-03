@@ -8,6 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importStar(require("sequelize"));
+const _1 = require(".");
 class ChargeState extends sequelize_1.Model {
     static initialize(sequelize) {
         return ChargeState.init({
@@ -208,6 +209,10 @@ class ChargeState extends sequelize_1.Model {
             createdAt: 'created_at',
             updatedAt: 'updated_at',
         });
+    }
+    static associate() {
+        ChargeState.belongsTo(_1.Charge, { onUpdate: 'cascade', onDelete: 'cascade' });
+        _1.Charge.hasMany(ChargeState, { onUpdate: 'cascade', onDelete: 'cascade' });
     }
 }
 exports.default = ChargeState;
