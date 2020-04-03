@@ -51,7 +51,6 @@ class Token extends sequelize_1.Model {
             sequelize: sequelize,
             tableName: 'tokens',
             timestamps: true,
-            paranoid: true,
             underscored: true,
             createdAt: 'created_at',
             updatedAt: 'updated_at',

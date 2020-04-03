@@ -1,6 +1,10 @@
 {
+  "restartable": "rs",
   "ignore": ["**/*.test.ts", "**/*.spec.ts", ".git", "node_modules"],
+  "verbose": true,
   "watch": ["src"],
   "exec": "npm start",
-  "ext": "ts"
+  "ext": "ts,js,json",
+  "execMap": { "ts": "node --require ts-node/register" },
+  "env": { "NODE_ENV": "development" }
 }
