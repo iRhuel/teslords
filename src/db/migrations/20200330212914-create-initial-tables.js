@@ -110,7 +110,7 @@ module.exports = {
       },
       vin: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       display_name: {
         allowNull: true,
