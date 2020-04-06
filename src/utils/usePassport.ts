@@ -55,7 +55,6 @@ export default () => {
           if (!user) {
             done({ user: 'Not found' });
           } else {
-            console.log('user keys:', Object.keys(user));
             return done(null, user);
           }
         } catch (err) {

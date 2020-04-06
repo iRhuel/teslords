@@ -5,7 +5,6 @@ import { Vehicle } from '../../db/models';
 const vehicleRoutes = Router();
 
 vehicleRoutes.get('/', async (req, res) => {
-  console.log(Object.keys(req.currentUser));
   const vehicles = await req.currentUser.getVehicles();
   return res.json(vehicles);
 });
