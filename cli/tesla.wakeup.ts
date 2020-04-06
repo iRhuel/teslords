@@ -10,14 +10,14 @@ export default async (args: Args) => {
 
   if (!user) {
     throw new Error(`No user found for id ${args.user_id}`);
-  } else if (!user.Token) {
+  } else if (!user.token) {
     throw new Error(`No token for user ${args.user_id}`);
-  } else if (!user.Vehicles) {
+  } else if (!user.vehicles) {
     throw new Error(`No vehicle for user ${args.user_id}`);
   } else {
     try {
-      const requestConfig = { token: user.Token.access_token };
-      const resp = await Tesla.wakeUpVehicle(requestConfig, user.Vehicles[0].id);
+      const requestConfig = { token: user.token.access_token };
+      const resp = await Tesla.wakeUpVehicle(requestConfig, user.vehicles[0].id);
 
       console.log('GOOD!', resp.data);
     } catch (err) {

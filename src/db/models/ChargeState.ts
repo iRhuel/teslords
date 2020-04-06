@@ -207,12 +207,13 @@ export default class ChargeState extends Model {
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        name: { singular: 'charge_state', plural: 'charge_states' },
       },
     );
   }
 
   static associate() {
-    ChargeState.belongsTo(Charge, { onUpdate: 'cascade', onDelete: 'cascade' });
+    ChargeState.belongsTo(Charge, { onUpdate: 'cascade', onDelete: 'cascade', foreignKey: 'charge_id' });
     Charge.hasMany(ChargeState, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
 }

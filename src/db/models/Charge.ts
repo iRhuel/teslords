@@ -34,6 +34,7 @@ export default class Charge extends Model {
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        name: { singular: 'charge', plural: 'charges' },
       },
     );
   }
@@ -43,11 +44,11 @@ export default class Charge extends Model {
   };
 
   static associate() {
-    Charge.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade' });
+    Charge.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade', foreignKey: 'user_id' });
     User.hasMany(Charge, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
 
   getChargeStates!: HasManyGetAssociationsMixin<ChargeState>;
 
-  ChargeStates?: ChargeState[];
+  charge_states?: ChargeState[];
 }

@@ -5,10 +5,14 @@ import { Vehicle } from '../../db/models';
 const vehicleRoutes = Router();
 
 vehicleRoutes.get('/', async (req, res) => {
-  // const token = await req.currentUser.getToken();
-  // console.log('success', token);
-  // return res.json({ token });
-  const token = req.currentUser.Token;
+  console.log(Object.keys(req.currentUser));
+  const vehicles = await req.currentUser.getVehicles();
+  return res.json(vehicles);
+});
+
+vehicleRoutes.post('/', async (req, res) => {
+  const token = req.currentUser.token;
+
   if (!token) {
     return res.boom.unauthorized('no access_token');
   } else {

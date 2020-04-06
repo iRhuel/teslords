@@ -28,11 +28,11 @@ tokenRoutes.post('/', async (req, res) => {
 });
 
 tokenRoutes.delete('/', async (req, res) => {
-  if (!req.currentUser.Token) {
+  if (!req.currentUser.token) {
     return res.boom.badRequest('no access_token');
   } else {
     try {
-      await req.currentUser.Token.destroy();
+      await req.currentUser.token.destroy();
       return res.status(204).send();
     } catch (err) {
       return res.send(err);

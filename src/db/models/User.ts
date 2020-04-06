@@ -43,6 +43,7 @@ export default class User extends Model {
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        name: { singular: 'user', plural: 'users' },
       },
     );
   }
@@ -59,9 +60,9 @@ export default class User extends Model {
   getToken!: HasOneGetAssociationMixin<Token>;
   getCharges!: HasManyGetAssociationsMixin<Charge>;
 
-  Vehicles?: Vehicle[];
-  Token?: Token;
-  Charges?: Charge[];
+  vehicles?: Vehicle[];
+  token?: Token;
+  charges?: Charge[];
 
   async setPassword(password: string) {
     if (!this.salt) {
