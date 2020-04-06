@@ -16,12 +16,14 @@ export default async (args: Args) => {
     throw new Error(`No vehicle for user ${args.user_id}`);
   } else {
     try {
-      const requestConfig = { token: user.token.access_token };
-      const resp = await Tesla.wakeUpVehicle(requestConfig, user.vehicles[0].id);
+      const requestConfig = { token: `Bearer ${user.token.access_token}` };
 
-      console.log('GOOD!', resp.data);
+      for (const vehicle of user.vehicles) {
+        await Tesla.wakeUpVehicle(requestConfig, vehicle.id_s);
+        console.log(`Wake up success for user ${args.user_id}, vehicle ${vehicle.id}`);
+      }
     } catch (err) {
-      console.log('BAD!', err.message);
+      throw new Error(`Wakeup attempt for user ${args.user_id} failed: ${err.message}`);
     }
   }
 };

@@ -18,9 +18,10 @@ export interface TeslaVehicle {
   display_name: string;
   option_codes: string;
   color: string | null;
+  tokens: string[];
   state: 'online' | string;
   in_service: boolean;
-  id_s: string | null;
+  id_s: string;
   calendar_enabled: boolean;
   api_version: number;
   backseat_token: string | null;
@@ -88,11 +89,20 @@ interface ChargeStateResp {
   response: TeslaChargeState;
 }
 
+interface WakeUpResp {
+  response: TeslaVehicle & {
+    user_id: number;
+  };
+}
+
 class Tesla {
   getConfig(request: TeslaAPIRequest): AxiosRequestConfig {
     return {
-      headers: { Authorization: request.token },
-      data: request.payload,
+      headers: {
+        Authorization: request.token,
+        'Content-Type': 'application/json; charset=utf-8',
+        'User-Agent': APP_USER_AGENT,
+      },
     };
   }
 
@@ -123,7 +133,7 @@ class Tesla {
   }
 
   wakeUpVehicle(config: TeslaAPIRequest, id: number | string) {
-    return axios.post(`${TESLA_API_URL}api/1/vehicles/${id}/wake_up`, this.getConfig(config));
+    return axios.post<WakeUpResp>(`${TESLA_API_URL}api/1/vehicles/${id}/wake_up`, null, this.getConfig(config));
   }
 }
 

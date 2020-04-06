@@ -1,5 +1,5 @@
 require('dotenv').config();
-import * as yargs from 'yargs';
+import yargs from 'yargs';
 import wakeup from './tesla.wakeup';
 
 yargs.command(
