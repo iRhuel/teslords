@@ -9,11 +9,11 @@
     "prestart": "npm run build",
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
-    "dev:debug": "nodemon  --inspect src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:make": "sequelize migration:generate",
     "migrate:all": "sequelize db:migrate",
-    "migrate:undo": "sequelize db:migrate:undo"
+    "migrate:undo": "sequelize db:migrate:undo",
+    "cli": "ts-node cli/index.ts"
   },
   "dependencies": {
     "axios": "^0.19.2",

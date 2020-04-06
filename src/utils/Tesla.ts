@@ -121,6 +121,10 @@ class Tesla {
       this.getConfig(config),
     );
   }
+
+  wakeUpVehicle(config: TeslaAPIRequest, id: number | string) {
+    return axios.post(`${TESLA_API_URL}api/1/vehicles/${id}/wake_up`, this.getConfig(config));
+  }
 }
 
 export default new Tesla();

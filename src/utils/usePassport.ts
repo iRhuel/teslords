@@ -3,7 +3,7 @@ import Local from 'passport-local';
 import JWT from 'passport-jwt';
 import { Request } from 'express';
 
-import { User } from '../db/models';
+import { User, Token } from '../db/models';
 
 const { APP_SECRET } = process.env;
 
@@ -30,7 +30,7 @@ export default () => {
       },
       async (email, password, done) => {
         try {
-          const user = await User.findOne({ where: { email }, include: [User.associations.token] });
+          const user = await User.findOne({ where: { email }, include: [Token] });
           if (!user || !user.validatePassword(password)) {
             return done({ 'email or password': 'is invalid' });
           } else {
@@ -51,10 +51,11 @@ export default () => {
       },
       async (jwt, done) => {
         try {
-          const user = await User.findOne({ where: { id: jwt.id }, include: [User.associations.token] });
+          const user = await User.findOne({ where: { id: jwt.id }, include: [Token] });
           if (!user) {
             done({ user: 'Not found' });
           } else {
+            console.log('user keys:', Object.keys(user));
             return done(null, user);
           }
         } catch (err) {

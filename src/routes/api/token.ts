@@ -15,22 +15,24 @@ tokenRoutes.post('/', async (req, res) => {
   try {
     const { data } = await Tesla.auth(email, password);
 
-    await Token.create({
+    const token = await Token.create({
       ...data,
       created_at: new Date(data.created_at),
       user_id: req.currentUser.id,
     });
+
+    return res.json(token.toJSON());
   } catch (err) {
     return res.boom.badImplementation(err.message);
   }
 });
 
 tokenRoutes.delete('/', async (req, res) => {
-  if (!req.currentUser.token) {
+  if (!req.currentUser.Token) {
     return res.boom.badRequest('no access_token');
   } else {
     try {
-      await req.currentUser.token.destroy();
+      await req.currentUser.Token.destroy();
       return res.status(204).send();
     } catch (err) {
       return res.send(err);

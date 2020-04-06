@@ -49,5 +49,5 @@ export default class Charge extends Model {
 
   getChargeStates!: HasManyGetAssociationsMixin<ChargeState>;
 
-  charge_states?: ChargeState[];
+  ChargeStates?: ChargeState[];
 }

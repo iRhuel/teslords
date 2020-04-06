@@ -59,9 +59,9 @@ export default class User extends Model {
   getToken!: HasOneGetAssociationMixin<Token>;
   getCharges!: HasManyGetAssociationsMixin<Charge>;
 
-  vehicles?: Vehicle[];
-  token?: Token;
-  charges?: Charge[];
+  Vehicles?: Vehicle[];
+  Token?: Token;
+  Charges?: Charge[];
 
   async setPassword(password: string) {
     if (!this.salt) {

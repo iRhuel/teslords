@@ -59,7 +59,7 @@ export default class Token extends Model {
   }
 
   static associate() {
-    Token.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade' });
+    Token.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade', foreignKey: 'user_id' });
     User.hasOne(Token, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
 
