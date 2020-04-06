@@ -21,8 +21,7 @@ vehicleRoutes.get('/', async (req, res) => {
 
       for (const extVehicle of data.response) {
         if (!intIds.includes(extVehicle.id)) {
-          console.log({ ...extVehicle, user_id: req.currentUser.id });
-          // createPromises.push(Vehicle.create({ ...extVehicle, user_id: req.currentUser.id }));
+          createPromises.push(Vehicle.create({ ...extVehicle, user_id: req.currentUser.id }));
         }
       }
 

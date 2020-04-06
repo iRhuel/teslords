@@ -14,7 +14,7 @@ export default class Vehicle extends Model {
           allowNull: false,
           autoIncrement: false,
           primaryKey: true,
-          type: Sequelize.INTEGER,
+          type: Sequelize.BIGINT,
         },
         user_id: {
           allowNull: false,
