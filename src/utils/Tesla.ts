@@ -19,7 +19,7 @@ export interface TeslaVehicle {
   option_codes: string;
   color: string | null;
   tokens: string[];
-  state: 'online' | string;
+  state: 'online' | 'asleep' | string;
   in_service: boolean;
   id_s: string;
   calendar_enabled: boolean;
@@ -70,6 +70,9 @@ export interface TeslaChargeState {
   time_to_full_charge: number;
   timestamp: number;
   trip_charging: boolean;
+  /**
+   * battery level in percent
+   */
   usable_battery_level: number;
   user_charge_enable_request: boolean | null;
 }
@@ -125,15 +128,15 @@ class Tesla {
     return axios.get<VehiclesResp>(`${TESLA_API_URL}api/1/vehicles`, this.getConfig(config));
   }
 
-  getChargeStates(id: string, config: TeslaAPIRequest) {
-    return axios.get<ChargeStateResp>(
-      `${TESLA_API_URL}api/1/vehicles/${id}/data_request/charge_state`,
-      this.getConfig(config),
-    );
+  wakeUpVehicle(config: TeslaAPIRequest, id_s: string) {
+    return axios.post<WakeUpResp>(`${TESLA_API_URL}api/1/vehicles/${id_s}/wake_up`, null, this.getConfig(config));
   }
 
-  wakeUpVehicle(config: TeslaAPIRequest, id: number | string) {
-    return axios.post<WakeUpResp>(`${TESLA_API_URL}api/1/vehicles/${id}/wake_up`, null, this.getConfig(config));
+  getChargeState(id_s: string, config: TeslaAPIRequest) {
+    return axios.get<ChargeStateResp>(
+      `${TESLA_API_URL}api/1/vehicles/${id_s}/data_request/charge_state`,
+      this.getConfig(config),
+    );
   }
 }
 
