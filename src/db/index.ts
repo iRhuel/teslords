@@ -2,15 +2,11 @@ import { Sequelize, Options } from 'sequelize';
 
 import dbConfigAll from './config.js';
 
-interface DBOptions {
-  development: Options;
-  test: Options;
-  production: Options;
-}
+const { DATABASE_URL } = process.env;
 
-const dbConfig = (dbConfigAll[(process.env.NODE_ENV as keyof typeof dbConfigAll) || 'development'] as any) as DBOptions;
+const dbConfig = (dbConfigAll[(process.env.NODE_ENV as keyof typeof dbConfigAll) || 'development'] as any) as Options;
 
-const db = new Sequelize({
+const db = new Sequelize(DATABASE_URL!, {
   ...dbConfig,
   pool: {
     max: 5,

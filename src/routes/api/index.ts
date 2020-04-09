@@ -6,6 +6,6 @@ import tokenRoutes from './token';
 const apiRoutes = Router();
 
 apiRoutes.use('/vehicles', vehicleRoutes);
-apiRoutes.use('/token', tokenRoutes);
+apiRoutes.use('/tokens', tokenRoutes);
 
 export default apiRoutes;
