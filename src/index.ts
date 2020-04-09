@@ -12,7 +12,7 @@ import { startDB } from './db';
 import routes from './routes';
 import { usePassport } from './utils';
 
-const { APP_PORT, APP_SECRET } = process.env;
+const { PORT, APP_SECRET } = process.env;
 
 const app = express();
 
@@ -33,6 +33,6 @@ usePassport();
 
 app.use('/', routes);
 
-app.listen(APP_PORT, () => {
-  console.log(`listening on port ${APP_PORT}`);
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
