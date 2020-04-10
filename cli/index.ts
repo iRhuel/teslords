@@ -1,14 +1,8 @@
 require('dotenv').config();
 import yargs from 'yargs';
-import wakeup from './tesla.wakeup';
+import wakeup from './wakeup';
+import scan from './scan';
 
-yargs.command(
-  'tesla:wakeup [user_id]',
-  'wakeup primary vehicle for user id',
-  (yargs) => {
-    yargs.positional('user_id', {
-      describe: 'the number id for the user whose vehicle will be woken up',
-    });
-  },
-  wakeup,
-).argv;
+yargs
+  .command('wakeup', 'wakeup all eligible vehicles', {}, wakeup)
+  .command('scan', 'Poll all vehicle charging states', {}, scan).argv;

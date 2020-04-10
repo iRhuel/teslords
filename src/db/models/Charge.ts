@@ -3,6 +3,8 @@ import { BaseAttributes, ChargeState, User } from '.';
 
 export default interface Charge extends BaseAttributes {
   vehicle_id: number;
+  charge_state_start_id?: number;
+  charge_state_end_id?: number;
 }
 
 export default class Charge extends Model {
@@ -20,6 +22,26 @@ export default class Charge extends Model {
           type: Sequelize.INTEGER,
           references: {
             model: 'vehicles',
+            key: 'id',
+          },
+          onUpdate: 'cascade',
+          onDelete: 'cascade',
+        },
+        charge_state_start_id: {
+          allowNull: true,
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'charge_states',
+            key: 'id',
+          },
+          onUpdate: 'cascade',
+          onDelete: 'cascade',
+        },
+        charge_state_end_id: {
+          allowNull: true,
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'charge_states',
             key: 'id',
           },
           onUpdate: 'cascade',
@@ -49,6 +71,4 @@ export default class Charge extends Model {
   }
 
   getChargeStates!: HasManyGetAssociationsMixin<ChargeState>;
-
-  charge_states?: ChargeState[];
 }

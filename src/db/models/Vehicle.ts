@@ -94,4 +94,6 @@ export default class Vehicle extends Model {
     Vehicle.belongsTo(User, { onUpdate: 'cascade', onDelete: 'cascade', foreignKey: 'user_id' });
     User.hasMany(Vehicle, { onUpdate: 'cascade', onDelete: 'cascade' });
   }
+
+  user?: User;
 }

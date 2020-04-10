@@ -88,11 +88,11 @@ interface VehiclesResp {
   response: TeslaVehicle[];
   count: number;
 }
-interface ChargeStateResp {
+export interface ChargeStateResp {
   response: TeslaChargeState;
 }
 
-interface WakeUpResp {
+export interface WakeUpResp {
   response: TeslaVehicle & {
     user_id: number;
   };
